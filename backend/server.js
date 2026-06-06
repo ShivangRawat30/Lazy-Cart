@@ -21,18 +21,26 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET, 
 });
 
-const server = app.listen(process.env.PORT, () => {
-  console.log(
-    `Server is Working on Port http://localhost:${process.env.PORT} `
-  );
-});
-
-// unhandled Promise Rejection
-process.on('unhandledRejection', (err) => {
-  console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to unhandled promise rejection`);
-
-  server.close(() => {
-    process.exit(1);
+// Local development: bind a port and run a long-lived server.
+// On Vercel (serverless) `process.env.VERCEL` is set — there we DON'T listen;
+// Vercel invokes the exported `app` as the request handler instead.
+if (!process.env.VERCEL) {
+  const server = app.listen(process.env.PORT || 4000, () => {
+    console.log(
+      `Server is Working on Port http://localhost:${process.env.PORT || 4000} `
+    );
   });
-});
+
+  // unhandled Promise Rejection
+  process.on('unhandledRejection', (err) => {
+    console.log(`Error: ${err.message}`);
+    console.log(`Shutting down the server due to unhandled promise rejection`);
+
+    server.close(() => {
+      process.exit(1);
+    });
+  });
+}
+
+// Export the Express app so Vercel's @vercel/node can use it as the handler.
+module.exports = app;
