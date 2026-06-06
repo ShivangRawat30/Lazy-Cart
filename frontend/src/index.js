@@ -14,7 +14,7 @@ import AlertTemplate from 'react-alert-template-basic';
 // Use "localhost" (not 127.0.0.1) so the frontend (localhost:3000) and backend
 // (localhost:4000) are same-site — otherwise the SameSite=Lax auth cookie is
 // withheld on cross-site requests and the session is lost on refresh.
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'https://lazy-cart.vercel.app/';
 // Send the httpOnly auth cookie with every request.
 axios.defaults.withCredentials = true;
 
