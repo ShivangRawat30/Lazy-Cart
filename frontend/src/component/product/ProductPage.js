@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import { useAlert, userAlert } from 'react-alert';
+import { useAlert } from 'react-alert';
 
 const categories = [
   'laptop',
@@ -58,7 +58,7 @@ const ProductPage = () => {
       dispatch(clearErrors());
     }
     dispatch(fetchProducts({keyword, currentPage, price, category, ratings}));
-  }, [dispatch, keyword, currentPage, price, category, ratings, error]);
+  }, [dispatch, keyword, currentPage, price, category, ratings, error, alert]);
 
   // let count = filteredProductsCount
   return (

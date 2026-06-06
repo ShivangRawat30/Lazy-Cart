@@ -7,10 +7,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Navigate, useNavigate} from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
-import { logoutUser } from '../../../Slices/userSlice';
+import { logoutUser as logoutUserAction } from '../../../Slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const UserOptions = ({ user }) => {
@@ -34,7 +33,7 @@ const UserOptions = ({ user }) => {
       name: `Cart(${cartItems.length})`,
       func: cart,
     },
-    { icon: <ExitToAppIcon />, name: 'Logout', func: logoutUser },
+    { icon: <ExitToAppIcon />, name: 'Logout', func: handleLogout },
   ];
 
   if (user.role === 'admin') {
@@ -58,8 +57,8 @@ const UserOptions = ({ user }) => {
   function cart() {
     navigate('/cart');
   }
-  function logoutUser() {
-    dispatch(logoutUser());
+  function handleLogout() {
+    dispatch(logoutUserAction());
     alert.success('Logout Successfully');
   }
 

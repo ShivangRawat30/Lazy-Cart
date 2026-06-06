@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <div className="w-[100%] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-300 bg-black bottom-[0%]">
       <div>
-        <img src={Logo} className='w-[150px] ml-[110px] lg:ml-[10px]'/>
+        <img src={Logo} alt="LazyCart" className='w-[150px] ml-[110px] lg:ml-[10px]'/>
         <p className="py-4">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
           natus voluptatibus eum praesentium debitis ut. Maiores vel sint

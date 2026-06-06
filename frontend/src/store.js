@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import orderReducer from './Slices/orderSlice'; // Import your orderSlice
 import productReducer from './Slices/productSlice'; // Import your productSlice
 import userReducer from './Slices/userSlice'; // Import your userSlice

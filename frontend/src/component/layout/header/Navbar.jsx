@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import {
-  FaBars,
-  FaTimes,
-  FaGithub,
-  FaLinkedin,
-  FaFacebook,
-  FaLinkedinIn,
-} from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { BsSearch, BsCart2 } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import { HiOutlineMail } from 'react-icons/hi';
-import { BsFillPersonLinesFill } from 'react-icons/bs';
 import Logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 
@@ -21,7 +12,7 @@ const Navbar = () => {
   return (
     <div className="fixed w-[100%] h-[70px] flex justify-between items-center bg-[#edecec] text-black border-white-0 z-20 top-0 ">
       <div className="">
-        <img src={Logo} alt="Logo Image" className="w-[160px]" />
+        <img src={Logo} alt="LazyCart logo" className="w-[160px]" />
       </div>
 
       {/* menu */}
