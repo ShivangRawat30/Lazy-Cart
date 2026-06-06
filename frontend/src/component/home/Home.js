@@ -40,20 +40,20 @@ const Home = () => {
               </p>
 
               <Link to="container" smooth={true} duration={500}>
-                <button className=" mt-[50px] border-[1px] border-solid px-[20px] my-2 text-xs lg:text-lg lg:px-5 py-2 lg:w-[200px] flex flex-col items-center justify-between hover:bg-[#ff6347] cursor:pointer">
-                  Start Shopping <CgMouse className="items-center" />
+                <button className="startShoppingBtn">
+                  Start Shopping <CgMouse />
                 </button>
               </Link>
             </div>
           </div>
 
-          <h2 className="homeHeading text-xl w-[200px] lg:text-3xl lg:w-[400px]">
-            Featured Products
-          </h2>
+          <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
             {products &&
-              products.map((product) => <Product product={product} />)}
+              products.map((product) => (
+                <Product key={product._id} product={product} />
+              ))}
           </div>
         </Fragment>
       )}

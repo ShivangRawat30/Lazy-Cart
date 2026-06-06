@@ -4,7 +4,7 @@ import axios from 'axios';
 const initialState = {
   user: {},
   isAuthenticated: false,
-  loading: false,
+  loading: true,
   error: null,
   message: '',
   success: false,
@@ -16,7 +16,7 @@ export const loginUser = createAsyncThunk('user/login', async ({email, password}
     console.log(email);
     console.log(password);
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post(`http://127.0.0.1:4000/api/v1/login`, {email,password}, config);
+    const { data } = await axios.post(`/api/v1/login`, {email,password}, config);
     return data.user;
   } catch (error) {
     console.log(error.response.data);
@@ -29,7 +29,7 @@ export const registerUser = createAsyncThunk('user/register', async ({userData},
   try {
     console.log(userData);
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    const { data } = await axios.post(`http://127.0.0.1:4000/api/v1/register`, userData, config);
+    const { data } = await axios.post(`/api/v1/register`, userData, config);
     return data.user;
   } catch (error) {
     return rejectWithValue(error.response.data.message);
@@ -37,7 +37,7 @@ export const registerUser = createAsyncThunk('user/register', async ({userData},
 });
 
 // Create an async thunk for loading user
-export const loadUser = createAsyncThunk('user/loadUser', async ({}, { rejectWithValue }) => {
+export const loadUser = createAsyncThunk('user/loadUser', async (_, { rejectWithValue }) => {
   try {
     const { data } = await axios.get(`/api/v1/me`);
     return data.user;

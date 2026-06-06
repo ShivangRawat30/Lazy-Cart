@@ -10,8 +10,69 @@
     align-items: center;
     justify-content: center;
     color: white;
+    position: relative;
+    overflow: hidden;
   }
-  
+
+  /* Dark scrim for legible hero text over the photo */
+  .banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 15, 20, 0.55) 0%,
+      rgba(15, 15, 20, 0.32) 45%,
+      rgba(15, 15, 20, 0.7) 100%
+    );
+    z-index: 0;
+  }
+
+  .banner > div {
+    position: relative;
+    z-index: 1;
+    animation: heroFadeIn 0.9s ease both;
+  }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .startShoppingBtn {
+    margin-top: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font: 600 1.05rem "Roboto", sans-serif;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .startShoppingBtn:hover {
+    background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-brand);
+  }
+
+  .startShoppingBtn svg {
+    font-size: 1.3rem;
+    animation: bobble 1.6s ease-in-out infinite;
+  }
+
+  @keyframes bobble {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+  }
+
   /* .banner > h1 {
     margin: 5vmax;
   
@@ -53,13 +114,22 @@
   
   .homeHeading {
     text-align: center;
-    font-family: Roboto;
-    font-size: 1.4vmax;
-    border-bottom: 1px solid rgba(21, 21, 21, 0.5);
-    width: 20vmax;
-    padding: 1vmax;
-    margin: 5vmax auto;
-    color: rgb(0, 0, 0, 0.7);
+    font: 700 2rem "Roboto", sans-serif;
+    letter-spacing: -0.02em;
+    width: fit-content;
+    padding: 0;
+    margin: 56px auto 8px;
+    color: var(--ink);
+  }
+
+  .homeHeading::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 14px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--brand), var(--brand-dark));
   }
   
   .container {

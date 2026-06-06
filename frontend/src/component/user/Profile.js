@@ -1,55 +1,67 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import MetaData from '../layout/MetaData';
 import Loader from '../layout/loader/Loader';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Profile.css';
 
 const Profile = () => {
-  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      Navigate('/login');
-    }
-  }, [Navigate, isAuthenticated]);
+  // ProtectedRoute already guards this page; wait until the user object is hydrated.
+  if (loading || !user || !user.name) {
+    return <Loader />;
+  }
+
   return (
     <Fragment>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Fragment>
-          <MetaData title={`${user.name}'s Profile`} />
-          <div className="profileContainer">
-            <div>
-              <h1 className="lg:flex lg:justify-center lg:items-center">
-                My Profile
-              </h1>
-              <img src={user.avatar.url} alt={user.name} />
-              <Link to="/me/update">Edit Profile</Link>
-            </div>
-            <div>
-              <div>
-                <h4 className="text-[md]">Full Name</h4>
-                <p>{user.name}</p>
-              </div>
-              <div>
-                <h4>Email</h4> 
-                <p>{user.email}</p>
-              </div>
-              <div>
-                <h4>Joined On</h4>
-                <p>{String(user.createdAt).substr(0, 10)}</p>
-              </div>
+      <MetaData title={`${user.name}'s Profile`} />
+      <div className="profilePage">
+        <div className="profileCard">
+          <div className="profileCover" />
 
-              <div>
-                <Link to="/orders">My Orders</Link>
-                <Link to="/password/update">Change Password</Link>
-              </div>
+          <div className="profileAvatarWrap">
+            <img
+              className="profileAvatar"
+              src={user.avatar?.url || '/Profile.png'}
+              alt={user.name}
+            />
+          </div>
+
+          <h1 className="profileName">{user.name}</h1>
+          <p className="profileEmail">{user.email}</p>
+
+          <Link to="/me/update" className="profileEditBtn">
+            Edit Profile
+          </Link>
+
+          <div className="profileInfoGrid">
+            <div className="profileInfoItem">
+              <span className="profileInfoLabel">Full Name</span>
+              <span className="profileInfoValue">{user.name}</span>
+            </div>
+            <div className="profileInfoItem">
+              <span className="profileInfoLabel">Email</span>
+              <span className="profileInfoValue">{user.email}</span>
+            </div>
+            <div className="profileInfoItem">
+              <span className="profileInfoLabel">Joined On</span>
+              <span className="profileInfoValue">
+                {String(user.createdAt).substr(0, 10)}
+              </span>
             </div>
           </div>
-        </Fragment>
-      )}
+
+          <div className="profileActions">
+            <Link to="/orders" className="profileActionBtn">
+              My Orders
+            </Link>
+            <Link to="/password/update" className="profileActionBtn outline">
+              Change Password
+            </Link>
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 };

@@ -1,124 +1,188 @@
 .aboutSection {
-    height: 100vh;
-    width: 100vw;
-    max-width: 100%;
-    background-color: white;
-    display: grid;
-    grid-template-columns: 4fr 4fr;
-    position: fixed;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 100px 20px 60px;
+  box-sizing: border-box;
+  background: radial-gradient(
+      900px 460px at 50% -5%,
+      rgba(var(--brand-rgb), 0.14),
+      transparent 60%
+    ),
+    var(--bg);
+}
+
+.aboutCard {
+  width: 100%;
+  max-width: 880px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: cardFadeIn 0.5s ease both;
+}
+
+.aboutCover {
+  height: 120px;
+  background: linear-gradient(120deg, var(--brand), var(--brand-dark));
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.aboutCover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px 200px at 80% 0%,
+    rgba(255, 255, 255, 0.25),
+    transparent 70%
+  );
+}
+
+.aboutCover > h1 {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font: 700 2rem 'Roboto', sans-serif;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.aboutBody {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+}
+
+.aboutFounder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 32px 36px;
+}
+
+.aboutAvatar {
+  margin-top: -60px !important;
+  border: 5px solid var(--surface);
+  box-shadow: var(--shadow-md);
+  background: #f3f3f5;
+}
+
+.aboutName {
+  font: 700 1.5rem 'Roboto', sans-serif;
+  color: var(--ink);
+  margin: 16px 0 2px;
+}
+
+.aboutRole {
+  color: var(--brand-dark);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font: 600 0.78rem 'Roboto', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.aboutInstaBtn {
+  margin: 18px 0 6px;
+  border: none;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  color: #fff;
+  font: 600 0.88rem 'Roboto', sans-serif;
+  padding: 11px 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(var(--brand-rgb), 0.3);
+  transition: all 0.3s ease;
+}
+
+.aboutInstaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-brand);
+}
+
+.aboutBio {
+  color: var(--text);
+  font: 400 0.95rem/1.6 'Roboto', sans-serif;
+  margin-top: 16px;
+  max-width: 46ch;
+}
+
+.aboutBrands {
+  border-left: 1px solid var(--border);
+  background: var(--bg);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.aboutBrands > h3 {
+  font: 700 1.2rem 'Roboto', sans-serif;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.aboutBrandsHint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 22px;
+}
+
+.aboutBrandLinks {
+  display: flex;
+  gap: 16px;
+}
+
+.aboutBrandLink {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+
+.aboutBrandLink svg {
+  font-size: 1.8rem;
+}
+
+.aboutBrandLink:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.aboutBrandLink.portfolio:hover {
+  color: var(--brand-dark);
+  border-color: rgba(var(--brand-rgb), 0.45);
+}
+
+.aboutBrandLink.linkedin:hover {
+  color: #0a66c2;
+  border-color: rgba(10, 102, 194, 0.45);
+}
+
+@media screen and (max-width: 600px) {
+  .aboutSection {
+    padding: 90px 14px 40px;
   }
-  
-  .aboutSectionGradient {
-    background-image: linear-gradient(
-      to bottom right,
-      rgb(78, 81, 255),
-      rgb(74, 137, 189)
-    );
+  .aboutBody {
+    grid-template-columns: 1fr;
   }
-  
-  .aboutSectionContainer {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-color: rgb(255, 255, 255);
-    width: 80vw;
-    height: 80vh;
-    transform: translateX(-50%) translateY(-50%);
-    box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.192);
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .aboutBrands {
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
-  
-  .aboutSectionContainer > h1 {
-    font: 400 3vmax "Roboto";
-    color: tomato;
-    margin: 2vmax;
+  .aboutCover > h1 {
+    font-size: 1.6rem;
   }
-  
-  .aboutSectionContainer > div {
-    display: flex;
-    width: 100%;
-  }
-  
-  .aboutSectionContainer > div > div {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2vmax;
-    box-sizing: border-box;
-  }
-  
-  .aboutSectionContainer > div > div > p {
-    color: rgba(0, 0, 0, 0.623);
-    font: 100 1vmax "Roboto";
-  }
-  
-  .aboutSectionContainer > div > div > button {
-    margin: 1vmax 0;
-  }
-  
-  .aboutSectionContainer > div > div > span {
-    font: 100 1vmax "Roboto";
-    color: rgba(0, 0, 0, 0.616);
-    text-align: center;
-    width: 80%;
-  }
-  
-  .aboutSectionContainer2 {
-    border-left: 1px solid rgba(0, 0, 0, 0.116);
-  }
-  
-  .aboutSectionContainer2 > h2 {
-    color: rgba(0, 0, 0, 0.623);
-    font: 100 2vmax "Roboto";
-    margin: 2vmax;
-  }
-  
-  .aboutSectionContainer2 > a > svg {
-    font-size: 4vmax;
-  }
-  
-  .youtubeSvgIcon {
-    color: tomato;
-  }
-  
-  .instagramSvgIcon {
-    color: #0A66C2;
-  }
-  
-  @media screen and (max-width: 600px) {
-    .aboutSectionContainer > div {
-      display: block;
-    }
-  
-    .aboutSectionContainer > h1 {
-      font: 400 5vmax "Roboto";
-      margin: 3vmax;
-    }
-  
-    .aboutSectionContainer > div > div > p {
-      font: 100 2vmax "Roboto";
-    }
-  
-    .aboutSectionContainer > div > div > span {
-      font: 100 1.4vmax "Roboto";
-      width: 70%;
-    }
-  
-    .aboutSectionContainer2 {
-      border-left: none;
-    }
-  
-    .aboutSectionContainer2 > h2 {
-      font: 100 3vmax "Roboto";
-      margin: 2vmax;
-    }
-  
-    .aboutSectionContainer2 > a > svg {
-      font-size: 6vmax;
-      margin: 1vmax;
-    }
-  }
+}

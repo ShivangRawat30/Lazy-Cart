@@ -67,6 +67,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
-  },
-  "proxy": "https://lazy-nu.vercel.app"
+  }
 }

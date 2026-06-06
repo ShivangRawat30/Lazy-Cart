@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 import './Cart.css';
-import { Typography } from "@material-ui/core";
-import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import CartItemCard from './CartItemCard';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart,removeCartItem } from '../../Slices/cartSlice';
-import { Link, useNavigate } from "react-router-dom";
+import { addItemsToCart, removeCartItem } from '../../Slices/cartSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -17,7 +15,7 @@ const Cart = () => {
     if (stock <= quantity) {
       return;
     }
-    dispatch(addToCart(id, newQty));
+    dispatch(addItemsToCart({ id, quantity: newQty }));
   };
 
   const decreaseQuantity = (id, quantity) => {
@@ -25,47 +23,77 @@ const Cart = () => {
     if (1 >= quantity) {
       return;
     }
-    dispatch(addToCart(id, newQty));
+    dispatch(addItemsToCart({ id, quantity: newQty }));
   };
 
   const deleteCartItems = (id) => {
     dispatch(removeCartItem(id));
   };
+
   const checkoutHandler = () => {
     navigate(`/login?redirect=shipping`);
   };
+
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+  const itemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
     <Fragment>
       {cartItems.length === 0 ? (
         <div className="emptyCart">
           <RemoveShoppingCartIcon />
-
-          <Typography>No Product in Your Cart</Typography>
+          <p>Your cart is empty</p>
+          <span className="emptyCartSub">
+            Looks like you haven't added anything yet.
+          </span>
           <Link to="/products">View Products</Link>
         </div>
       ) : (
-        <Fragment>
-          <div className="cartPage">
-            <div className="cartHeader">
-              <p>Product</p>
-              <p>Quantity</p>
-              <p>Subtotal</p>
-            </div>
+        <div className="cartPage">
+          <h1 className="cartHeading">Your Cart</h1>
 
-            {cartItems &&
-              cartItems.map((item) => (
-                <div className="cartContainer" key={item.product}>
-                  <CartItemCard item={item} deleteCartItems={deleteCartItems} />
-                  <div className="cartInput">
+          <div className="cartLayout">
+            <div className="cartItems">
+              {cartItems.map((item) => (
+                <div className="cartItemRow" key={item.product}>
+                  <Link
+                    to={`/product/${item.product}`}
+                    className="cartItemImg"
+                  >
+                    <img src={item.image} alt={item.name} />
+                  </Link>
+
+                  <div className="cartItemInfo">
+                    <Link
+                      to={`/product/${item.product}`}
+                      className="cartItemName"
+                    >
+                      {item.name}
+                    </Link>
+                    <span className="cartItemUnit">₹{item.price} each</span>
                     <button
+                      className="cartItemRemove"
+                      onClick={() => deleteCartItems(item.product)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <div className="cartStepper">
+                    <button
+                      aria-label="Decrease quantity"
                       onClick={() =>
                         decreaseQuantity(item.product, item.quantity)
                       }
                     >
-                      -
+                      −
                     </button>
-                    <input type="number" value={item.quantity} readOnly />
+                    <span className="cartQty">{item.quantity}</span>
                     <button
+                      aria-label="Increase quantity"
                       onClick={() =>
                         increaseQuantity(
                           item.product,
@@ -77,28 +105,41 @@ const Cart = () => {
                       +
                     </button>
                   </div>
-                  <p className="cartSubtotal">{`₹${
-                    item.price * item.quantity
-                  }`}</p>
+
+                  <div className="cartItemSubtotal">
+                    ₹{item.price * item.quantity}
+                  </div>
                 </div>
               ))}
-
-            <div className="cartGrossProfit">
-              <div></div>
-              <div className="cartGrossProfitBox">
-                <p>Gross Total</p>
-                <p>{`₹${cartItems.reduce(
-                  (acc, item) => acc + item.quantity * item.price,
-                  0
-                )}`}</p>
-              </div>
-              <div></div>
-              <div className="checkOutBtn">
-                <button onClick={checkoutHandler}>Check Out</button>
-              </div>
             </div>
+
+            <aside className="cartSummary">
+              <h2>Order Summary</h2>
+              <div className="cartSummaryRow">
+                <span>Items</span>
+                <span>{itemCount}</span>
+              </div>
+              <div className="cartSummaryRow">
+                <span>Subtotal</span>
+                <span>₹{subtotal}</span>
+              </div>
+              <div className="cartSummaryRow muted">
+                <span>Shipping</span>
+                <span>Calculated at checkout</span>
+              </div>
+              <div className="cartSummaryTotal">
+                <span>Total</span>
+                <span>₹{subtotal}</span>
+              </div>
+              <button className="cartCheckoutBtn" onClick={checkoutHandler}>
+                Proceed to Checkout
+              </button>
+              <Link to="/products" className="cartContinue">
+                Continue Shopping
+              </Link>
+            </aside>
           </div>
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );

@@ -1,50 +1,148 @@
 .contactContainer {
-    height: 100vh;
-    width: 100vw;
-    max-width: 100%;
-    display: grid;
-    place-items: center;
-    background-color: white;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px 60px;
+  box-sizing: border-box;
+  background: radial-gradient(
+      900px 460px at 50% -5%,
+      rgba(var(--brand-rgb), 0.14),
+      transparent 60%
+    ),
+    var(--bg);
+}
+
+.contactCard {
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow-lg);
+  padding: 40px 34px;
+  box-sizing: border-box;
+  animation: cardFadeIn 0.5s ease both;
+}
+
+.contactHeading {
+  text-align: center;
+  font: 700 2rem 'Roboto', sans-serif;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0 auto 6px;
+  width: fit-content;
+}
+
+.contactHeading::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 12px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+}
+
+.contactSubtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0 auto 28px;
+  max-width: 38ch;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  padding: 16px 18px;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  transform: translateX(-24px);
+  opacity: 0;
+  animation: contactRowIn 0.5s ease forwards;
+}
+
+.mailBtn {
+  animation-delay: 0.05s;
+}
+.linkedInBtn {
+  animation-delay: 0.18s;
+}
+.twitterBtn {
+  animation-delay: 0.31s;
+}
+
+.contactRow:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--brand-rgb), 0.45);
+  box-shadow: var(--shadow-md);
+}
+
+.contactIcon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.contactRowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.contactLabel {
+  font: 600 0.74rem 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.contactValue {
+  font: 500 1rem 'Roboto', sans-serif;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.contactArrow {
+  color: var(--muted);
+  font-size: 1.2rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.contactRow:hover .contactArrow {
+  transform: translateX(5px);
+  color: var(--brand);
+}
+
+@keyframes contactRowIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .mailBtn {
-    text-decoration: none;
-    transform: translateX(-100vw);
-    animation: mailBtnAnimation 2s forwards;
-    
+}
+
+@media screen and (max-width: 600px) {
+  .contactCard {
+    padding: 30px 20px;
   }
-  .linkedInBtn {
-      text-decoration: none;
-      transform: translateX(-100vw);
-      animation: mailBtnAnimation 4s forwards;
-    }
-    .twitterBtn {
-      text-decoration: none;
-      transform: translateX(-100vw);
-      animation: mailBtnAnimation 6s forwards;
-    }
-  
-  .mailBtn > button {
-    font-size: 2vmax;
-    cursor: url("https://img.icons8.com/color/48/000000/edit--v2.png"), pointer;
-    padding: 2vmax;
-    color: #F2A60C    ;
+  .contactHeading {
+    font-size: 1.6rem;
   }
-  .linkedInBtn > button {
-   font-size: 2vmax;
-   cursor: url("https://img.icons8.com/color/48/000000/edit--v2.png"), pointer;
-   padding: 2vmax;
-   color: #0A66C2;
- }
-   .twitterBtn > button {
-    font-size: 2vmax;
-    cursor: url("https://img.icons8.com/color/48/000000/edit--v2.png"), pointer;
-    padding: 2vmax;
-    color: #00acee;
+  .contactValue {
+    font-size: 0.92rem;
   }
-  
-  @keyframes mailBtnAnimation {
-    to {
-      transform: translateX(0);
-    }
-  }
+}

@@ -1,28 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Redirect, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
+const ProtectedRoute = ({ isAdmin, children }) => {
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
 
-  return (
-    <Fragment>
-      {!loading && (
-        <Routes>
-          <Route
-            {...rest}
-            render={(props) => {
-              if (isAuthenticated === false) {
-                return <Navigate to="/login" />;
-              }
+  // Wait for the initial loadUser() auth check to finish before deciding.
+  if (loading) return null;
 
-              return <Component {...props} />;
-            }}
-          />
-        </Routes>
-      )}
-    </Fragment>
-  );
+  if (isAuthenticated === false) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (isAdmin === true && user?.role !== 'admin') {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

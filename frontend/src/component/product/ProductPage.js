@@ -68,9 +68,16 @@ const ProductPage = () => {
       ) : (
         <Fragment>
           <MetaData title="PRODUCTS -- LazyCart" />
-          <h2 className="productsHeading lg:mt-[50px] mt-[60px]">Products</h2>
+          <h2 className="productsHeading">
+            {keyword ? `Results for “${keyword}”` : 'All Products'}
+          </h2>
+          <p className="productsSubtitle">
+            {productsCount
+              ? `Showing ${products?.length || 0} of ${productsCount} products`
+              : 'Discover our curated collection'}
+          </p>
 
-          <div className="products left-[1100px] min-h-[0vh]">
+          <div className="products">
             {products &&
               products.map((product) => (
                 <ProductCard key={product._id} product={product} />

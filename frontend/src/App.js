@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Footer from './component/layout/footer/Footer';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WebFont from 'webfontloader';
@@ -47,45 +47,117 @@ const App = () => {
       },
     });
     store.dispatch(loadUser());
-    // getStripeApiKey();
   }, []);
+
+  // The /stripeApiKey route is auth-protected, so fetch the key once the
+  // user is logged in (not on first mount when there may be no session yet).
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      getStripeApiKey();
+    }
+  }, [isAuthenticated]);
+
+  // Build the Stripe promise once per key change (loadStripe must not run every render).
+  const stripePromise = useMemo(
+    () => (stripeApiKey ? loadStripe(stripeApiKey) : null),
+    [stripeApiKey]
+  );
 
   return (
     <Router>
       <Navbar />
       {isAuthenticated && <UserOptions user={user} />}
-      <ProtectedRoute exact path="/account" element={<Profile />} />
-      <ProtectedRoute exact path="/me/update" element={<UpdateProfile />} />
-      <ProtectedRoute exact path="/login/shipping" element={<Shipping />} />
-      <ProtectedRoute exact path="/order/confirm" element={<Confirm />} />
-      <ProtectedRoute exact path="/success" element={<OrderSuccess />} />
-      <ProtectedRoute exact path="/orders" element={<MyOrders />} />
-      <ProtectedRoute exact path="/order/:id" element={<OrderDetails />} />
-      {/* <Elements stripe={loadStripe(stripeApiKey)}>
-        <ProtectedRoute exact path="/process/payment" element={<Payment />} />
-      </Elements> */}
-      <ProtectedRoute
-        exact
-        path="/password/update"
-        element={<UpdatePassword />}
-      />
       <Routes>
-        <Route extact path="/" element={<Home />} />
-        <Route extact path="/product/:id" element={<ProductDetails />} />
-        <Route extact path="/products" element={<ProductPage />} />
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:keyword" element={<ProductPage />} />
-        <Route extact path="/search" element={<Search />} />
-        <Route extact path="/login" element={<LoginSignup />} />
-        <Route extact path="/password/forgot" element={<ForgotPassword />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<LoginSignup />} />
+        <Route path="/password/forgot" element={<ForgotPassword />} />
+        <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/cart" element={<Cart />} />
 
-        <Route exact path="/Contact" element={<Contact />} />
-        <Route exact path="/about" element={<About />} />
+        {/* Protected routes (require a logged-in user) */}
         <Route
-          extact
-          path="/password/reset/:token"
-          element={<ResetPassword />}
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
-        <Route extact path="/cart" element={<Cart />} />
+        <Route
+          path="/me/update"
+          element={
+            <ProtectedRoute>
+              <UpdateProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/password/update"
+          element={
+            <ProtectedRoute>
+              <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/login/shipping"
+          element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/confirm"
+          element={
+            <ProtectedRoute>
+              <Confirm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/process/payment"
+          element={
+            <ProtectedRoute>
+              {stripePromise ? (
+                <Elements stripe={stripePromise}>
+                  <Payment />
+                </Elements>
+              ) : null}
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <Footer />
